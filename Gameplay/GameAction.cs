@@ -21,7 +21,7 @@ namespace MyQuest
                 this.actionsAndKeysDict[key] = this.actions.ElementAt(i).Key;
             }
         }
-        
+
         public Action ProcessAction()
         {
             Gui.PrintOptionGame(this.actions.Keys.ToList());

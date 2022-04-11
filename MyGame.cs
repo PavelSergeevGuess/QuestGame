@@ -32,7 +32,7 @@
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("\nНажмите любую клавишу, чтобы продолжить");
-            Console.ReadKey();
+            Console.ReadKey(true);
             Console.ResetColor();
         }
     }
