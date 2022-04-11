@@ -1,6 +1,6 @@
 ﻿namespace MyQuest
 {
-    class MyGame
+    public class MyGame
     {
         private Stack<State> states;
 
@@ -34,6 +34,17 @@
             Console.WriteLine("\nНажмите любую клавишу, чтобы продолжить");
             Console.ReadKey(true);
             Console.ResetColor();
+        }
+
+        public void AddStateLocation(Location location)
+        {
+            this.states.Push(new StateLocation(this.states, location));
+        }
+
+        public void ReplaceStateLocation(Location location)
+        {
+            this.states.Pop();
+            this.states.Push(new StateLocation(this.states, location));
         }
     }
 }

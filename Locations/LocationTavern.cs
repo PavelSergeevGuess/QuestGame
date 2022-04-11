@@ -11,7 +11,8 @@ namespace MyQuest
             this.locationOptions = new Dictionary<string, Action>
             {
                 { "Осмотреться", this.LookAround },
-                { "Вернуться", this.GetBack }
+                { "Вернуться", this.GetBack },
+                { "Выпить пива", this.DrinkBeer }
             };
             this.characters = new List<Character>();
             this.stranger = new CharStranger("Бродяга");
@@ -41,6 +42,21 @@ namespace MyQuest
             }
         }
 
+        private void LookAround()
+        {
+            Console.Clear();
+            if (StateGame.eventPoints.tavernStrangerRobbed == false)
+                Gui.DescriptionMessage("Таверна маленькая, почти никого нет внутри\n" +
+                                       "Вы замечаете, что какой-то бродяга сидит в углу и пристально смотрит на вас\n" +
+                                       "У бродяги шрам на глазу, неопрятный вид, руки спрятаны за спиной");
+            else
+                Gui.DescriptionMessage("В таверне никто на вас не обращает внимания\n" +
+                                       "Бродяга продолжает сидеть на своем месте, ожидая чего-то");
+            StateGame.eventPoints.tavernLookAround = true;
+            MyGame.PressAnyKeyToContinue();
+        }
+
+
         private void RobStranger()
         {
             if (StateGame.eventPoints.tavernStrangerRobbed == false)
@@ -64,24 +80,15 @@ namespace MyQuest
         {
             Console.Clear();
             Gui.DescriptionMessage("Вы отправляетесь к себе домой");
-            this.GetBack();
-            StateGame.locationDict = LocationContainer.GetLocationPt1();
+            Program.ReplaceStateLocation(new LocationHome());
             MyGame.PressAnyKeyToContinue();
         }
 
 
-        private void LookAround()
+
+        private void DrinkBeer()
         {
-            Console.Clear();
-            if (StateGame.eventPoints.tavernStrangerRobbed == false)
-                Gui.DescriptionMessage("Таверна маленькая, почти никого нет внутри\n" +
-                                       "Вы замечаете, что какой-то бродяга сидит в углу и пристально смотрит на вас\n" +
-                                       "У бродяги шрам на глазу, неопрятный вид, руки спрятаны за спиной");
-            else
-                Gui.DescriptionMessage("В таверне никто на вас не обращает внимания\n" +
-                                       "Бродяга продолжает сидеть на своем месте, ожидая чего-то");
-            StateGame.eventPoints.tavernLookAround = true;
-            MyGame.PressAnyKeyToContinue();
+           
         }
     }
 }

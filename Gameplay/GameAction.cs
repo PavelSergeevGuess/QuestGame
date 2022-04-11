@@ -2,7 +2,7 @@
 
 namespace MyQuest
 {
-    class GameAction
+    public class GameAction
     {
         private Dictionary<ConsoleKey, string> actionsAndKeysDict;
         private Dictionary<string, Action> actions;

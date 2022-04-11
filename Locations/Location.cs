@@ -2,7 +2,7 @@
 
 namespace MyQuest
 {
-    class Location
+    public class Location
     {
         protected List <Character> characters;
         protected Dictionary<string, Action> locationOptions;
