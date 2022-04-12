@@ -55,7 +55,7 @@ namespace MyQuest
                 Gui.DescriptionMessage("Бродяга продолжает сидеть на своем месте, ожидая чего-то");
             else
                 Gui.DescriptionMessage("Тело хозяина таверны лежит неподвижно\n" +
-                                       "Бродяги нет в таверне, проследить за ним не получится");
+                                       "Бродяга покинул таверну, проследить за ним не получится");
             StateGame.eventPoints.tavernLookAround = true;
             MyGame.PressAnyKeyToContinue();
         }
@@ -84,6 +84,9 @@ namespace MyQuest
         {
             Console.Clear();
             Gui.DescriptionMessage("Вы отправляетесь к себе домой");
+            Gui.Dialogue(StateGame.eventPoints.player.GetName(), "С этим бродягой явно что-то не так...");
+            Gui.Dialogue("Встречный прохожий", "А я то думал я один сам с собой болтаю!");
+            Gui.Dialogue(StateGame.eventPoints.player.GetName(), "Проваливай, живо");
             Program.ReplaceStateLocation(new LocationHome());
             MyGame.PressAnyKeyToContinue();
         }
@@ -105,8 +108,8 @@ namespace MyQuest
                         StateGame.eventPoints.tavernBeerDrinked += 1;
                         break;
                     case 1:
-                        Gui.Dialogue("Хозяин таверны", "Я скоро закрываю таверну, тебе пора завязывать");
                         Gui.DescriptionMessage("Хозяин таверны, кажется, дрожит");
+                        Gui.Dialogue("Хозяин таверны", "Я скоро закрываю таверну, тебе пора завязывать");
                         StateGame.eventPoints.tavernBeerDrinked += 1;
                         break;
                     case 2:

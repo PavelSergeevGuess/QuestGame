@@ -46,7 +46,7 @@
             var splitstr = str.Split('\n');
             foreach (var line in splitstr)
             {
-                str = string.Format(" - {0}\n", line);
+                str = string.Format(" (~) {0}\n", line);
                 Console.Write(str);
             }
             Console.ResetColor();
@@ -54,8 +54,10 @@
 
         public static void Dialogue(string speaker, string str)
         {
-            str = string.Format("{0}: {1}\n", speaker, str);
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            str = string.Format(" - {0}: {1}\n", speaker, str);
             Console.Write(str);
+            Console.ResetColor ();
         }
 
         public static void PlayerMoney(int money)
@@ -104,15 +106,16 @@
                 Console.ForegroundColor = ConsoleColor.Red;
                 str = string.Format("Ваш кошель опустел на {0} монет\n", -1 * money);
                 Console.Write(str);
-                Console.ResetColor();
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 str = string.Format("Вы получили {0} монет\n", money);
                 Console.Write(str);
-                Console.ResetColor();
             }
+            str = string.Format("Теперь денег: {0}\n", StateGame.eventPoints.player.GetMoney());
+            Console.Write(str);
+            Console.ResetColor();
         }
     }
 }

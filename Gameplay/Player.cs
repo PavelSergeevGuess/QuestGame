@@ -40,8 +40,8 @@ namespace MyQuest
 
         public void ChangeMoney(int money)
         {
-            Gui.MoneyChange(money);
             this.money += money;
+            Gui.MoneyChange(money);
         }
 
         public bool HasEnoughMoney(int money)

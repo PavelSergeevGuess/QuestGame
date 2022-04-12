@@ -11,9 +11,9 @@ namespace MyQuest
         public StateGame(Stack<State> states)
             : base(states)
         {
-            this.RunStartDialogue();
             eventPoints = new EventPoints();
             locationDict = LocationContainer.GetStartLocation();
+            this.RunStartDialogue();
         }
         override public void Update()
         {
@@ -38,7 +38,6 @@ namespace MyQuest
                 case ConsoleKey.Escape:
                     if (this.AskForQuit())
                     {
-                        eventPoints = new EventPoints();
                         locationDict = LocationContainer.GetStartLocation();
                         this.end = true;
                         break;
@@ -71,7 +70,13 @@ namespace MyQuest
 
         private void RunStartDialogue()
         {
-
+            Gui.DescriptionMessage("В нижнем мире, или как его еще называют, гетто, считается нормальным грабить и убивать");
+            Gui.DescriptionMessage("Все равно никто не интересуется судьбами тех людей, что погибают на улицах");
+            Gui.DescriptionMessage("Солнце уже садится и вы, как и подобает разбойнику, ищете себе развлечение на вечер");
+            Console.WriteLine();
+            Gui.Dialogue(eventPoints.player.GetName(), "Пожалуй, сегодня мне не помешает немного пива");
+            Gui.Dialogue(eventPoints.player.GetName() + " (с ухмылкой)", "Надеюсь, деньги на него сами меня найдут");
+            Console.WriteLine();
         }
     }
 }
