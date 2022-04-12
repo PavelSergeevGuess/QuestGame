@@ -2,7 +2,7 @@
 
 namespace MyQuest
 {
-    class Character
+    public class Character
     {
         public string name { get; set; }
         public List <string> dialogues { get; set; }

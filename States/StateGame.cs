@@ -11,6 +11,7 @@ namespace MyQuest
         public StateGame(Stack<State> states)
             : base(states)
         {
+            this.RunStartDialogue();
             eventPoints = new EventPoints();
             locationDict = LocationContainer.GetStartLocation();
         }
@@ -35,13 +36,42 @@ namespace MyQuest
                 case ConsoleKey.D2:
                     break;
                 case ConsoleKey.Escape:
-                    eventPoints.SetDefault();
-                    locationDict = LocationContainer.GetStartLocation();
-                    this.end = true;
+                    if (this.AskForQuit())
+                    {
+                        eventPoints = new EventPoints();
+                        locationDict = LocationContainer.GetStartLocation();
+                        this.end = true;
+                        break;
+                    }
                     break;
                 default:
                     break;
             }
+        }
+
+        private bool AskForQuit()
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Clear();
+            Console.WriteLine("Вы точно хотите выйти?");
+            Console.WriteLine("Несохраненные данные будут утеряны");
+            Console.ResetColor();
+            var toPrint = new List<string> { "Выйти", "Остаться" };
+            Gui.PrintOptionGame(toPrint);
+            var playerChoice = Console.ReadKey(true).Key;
+            switch (playerChoice)
+            {
+                case ConsoleKey.D1:
+                    return true;
+                case ConsoleKey.D2:
+                    return false;
+            }
+            return false;
+        }
+
+        private void RunStartDialogue()
+        {
+
         }
     }
 }

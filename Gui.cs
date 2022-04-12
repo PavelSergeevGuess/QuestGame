@@ -102,7 +102,7 @@
             if (money < 0)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                str = string.Format("Ваше состояние уменьшелилось на {0} монет\n", -1 * money);
+                str = string.Format("Ваш кошель опустел на {0} монет\n", -1 * money);
                 Console.Write(str);
                 Console.ResetColor();
             }

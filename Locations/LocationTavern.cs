@@ -12,7 +12,7 @@ namespace MyQuest
             {
                 { "Осмотреться", this.LookAround },
                 { "Вернуться", this.GetBack },
-                { "Выпить пива", this.DrinkBeer }
+                { "Выпить пива (15 монет)", this.DrinkBeer }
             };
             this.characters = new List<Character>();
             this.stranger = new CharStranger("Бродяга");
@@ -30,7 +30,9 @@ namespace MyQuest
 
         private void UpdateTavernOptions()
         {
-            if (StateGame.eventPoints.tavernLookAround == true && !this.locationOptions.ContainsKey("Обокрасть бродягу"))
+            if (StateGame.eventPoints.tavernLookAround == true
+                && !this.locationOptions.ContainsKey("Обокрасть бродягу")
+                && !(StateGame.eventPoints.tavernBeerDrinked == 3))
             {
                 this.locationOptions.Add("Обокрасть бродягу", RobStranger);
                 this.action = new GameAction(this.locationOptions);
@@ -49,9 +51,11 @@ namespace MyQuest
                 Gui.DescriptionMessage("Таверна маленькая, почти никого нет внутри\n" +
                                        "Вы замечаете, что какой-то бродяга сидит в углу и пристально смотрит на вас\n" +
                                        "У бродяги шрам на глазу, неопрятный вид, руки спрятаны за спиной");
+            else if (StateGame.eventPoints.tavernStrangerRobbed == true && !(StateGame.eventPoints.tavernBeerDrinked == 3))
+                Gui.DescriptionMessage("Бродяга продолжает сидеть на своем месте, ожидая чего-то");
             else
-                Gui.DescriptionMessage("В таверне никто на вас не обращает внимания\n" +
-                                       "Бродяга продолжает сидеть на своем месте, ожидая чего-то");
+                Gui.DescriptionMessage("Тело хозяина таверны лежит неподвижно\n" +
+                                       "Бродяги нет в таверне, проследить за ним не получится");
             StateGame.eventPoints.tavernLookAround = true;
             MyGame.PressAnyKeyToContinue();
         }
@@ -88,7 +92,37 @@ namespace MyQuest
 
         private void DrinkBeer()
         {
-           
+            var beerPrice = 15;
+            if (StateGame.eventPoints.player.HasEnoughMoney(beerPrice))
+            {
+                StateGame.eventPoints.player.ChangeMoney(-beerPrice);
+                Gui.DescriptionMessage("Хозяин таверны налил вам пиво");
+                Console.WriteLine();
+                switch (StateGame.eventPoints.tavernBeerDrinked)
+                {
+                    case 0:
+                        Gui.DescriptionMessage("Вы замечаете, что бродяга пристально наблюдает за вами");
+                        StateGame.eventPoints.tavernBeerDrinked += 1;
+                        break;
+                    case 1:
+                        Gui.Dialogue("Хозяин таверны", "Я скоро закрываю таверну, тебе пора завязывать");
+                        Gui.DescriptionMessage("Хозяин таверны, кажется, дрожит");
+                        StateGame.eventPoints.tavernBeerDrinked += 1;
+                        break;
+                    case 2:
+                        Gui.DescriptionMessage("Бродяга подходит к стойке и вонзает кинжал в сердце хозяина таверны");
+                        Gui.Dialogue(this.stranger.name, this.stranger.dialogues[4]);
+                        this.locationOptions = new Dictionary<string, Action>
+                        {
+                            { "Осмотреться", this.LookAround },
+                        };
+                        StateGame.eventPoints.tavernBeerDrinked += 1;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            MyGame.PressAnyKeyToContinue();
         }
     }
 }

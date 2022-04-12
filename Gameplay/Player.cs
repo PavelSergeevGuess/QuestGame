@@ -40,15 +40,19 @@ namespace MyQuest
 
         public void ChangeMoney(int money)
         {
-            if (this.money < Math.Abs(money) && money < 0)
-            {
-                Gui.DescriptionMessage("Недостаточно денег");
-                return;
-            }
             Gui.MoneyChange(money);
             this.money += money;
         }
 
+        public bool HasEnoughMoney(int money)
+        {
+            if (this.money < money)
+            {
+                Gui.DescriptionMessage("Недостаточно денег!");
+                return false;
+            }
+            return true;
+        }
 
 
 
